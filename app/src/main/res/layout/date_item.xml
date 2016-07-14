@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_weight="1"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+
+        <TextView
+            android:id="@+id/item_temp_high"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:gravity="center_horizontal"
+            android:text="29℃"/>
+
+        <TextView
+            android:id="@+id/item_temp_low"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:gravity="center_horizontal"
+            android:text="24℃"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/item_wind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="微风"/>
+
+    <TextView
+        android:id="@+id/item_wind_level"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="&lt;3级"/>
+
+
+
+    <TextView
+        android:id="@+id/item_weather"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="阴"/>
+
+    <ImageView
+        android:id="@+id/item_weather_img"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/cloud"
+        android:gravity="center_horizontal"
+        />
+
+    <TextView
+        android:id="@+id/item_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="30日"/>
+
+</LinearLayout>

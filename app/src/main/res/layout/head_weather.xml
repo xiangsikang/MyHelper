@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true">
+
+    <TextView
+        android:id="@+id/header_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="长沙" />
+    <TextView
+        android:id="@+id/header_update_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:text="20:20" />
+
+    <ImageView
+        android:id="@+id/header_weather_img"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/cloud"
+        android:layout_marginLeft="51dp"
+        android:layout_marginStart="51dp"
+        android:layout_below="@+id/header_city"
+        android:layout_toRightOf="@+id/header_city"
+        android:layout_toEndOf="@+id/header_city"
+        android:layout_marginTop="15dp" />
+
+
+    <TextView
+        android:id="@+id/header_wendu"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:textSize="50sp"
+        android:text="25℃"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/header_update_time"
+        android:layout_toStartOf="@+id/header_update_time"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="27dp"
+        android:layout_marginEnd="27dp" />
+
+    <TextView
+        android:id="@+id/header_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="多云"
+        android:layout_below="@+id/header_weather_img"
+        android:layout_alignRight="@+id/header_weather_img"
+        android:layout_alignEnd="@+id/header_weather_img"
+        android:layout_marginRight="39dp"
+        android:layout_marginEnd="39dp" />
+
+    <TextView
+        android:id="@+id/header_wendu_range"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="20-30℃"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@id/header_weather_img"
+        android:layout_alignLeft="@id/header_wendu"
+        android:paddingBottom="20dp"/>
+
+    <TextView
+        android:id="@+id/header_wind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="微风"
+        android:layout_marginLeft="20dp"
+        android:layout_alignBaseline="@id/header_weather"
+        android:layout_alignLeft="@id/header_wendu"/>
+
+</RelativeLayout>
