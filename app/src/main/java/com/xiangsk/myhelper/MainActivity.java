@@ -1,44 +1,26 @@
 package com.xiangsk.myhelper;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.util.Log;
-import android.view.Display;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.xiangsk.myhelper.bean.CityBean;
-import com.xiangsk.myhelper.bean.Data;
-import com.xiangsk.myhelper.bean.Forecast;
-import com.xiangsk.myhelper.bean.WeatherDataRsp;
 import com.xiangsk.myhelper.db.DatabaseHelper;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private Map<Integer, Fragment> fragmentMap;
+
+    private ViewGroup mBottomVg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +29,12 @@ public class MainActivity extends AppCompatActivity {
 
         new CItyImportAsyncTask(this).execute();
 
-        fragmentMap = new LinkedHashMap<>();
+        fragmentMap = new HashMap<>();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        ViewGroup vg = (ViewGroup)findViewById(R.id.city_bottom);
 
         List<CityBean> userCityList = new DatabaseHelper(this).getUserCity();
         // 用户没有配置城市，跳转到城市管理
@@ -69,60 +45,71 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        int i = 0;
-        for (CityBean city : userCityList) {
-            if (null != fragmentMap.get(city.getCode())) {
+        for (int i = 0; i < userCityList.size(); i++) {
+            int code = userCityList.get(i).getCode();
+            if (null != fragmentMap.get(code)) {
                 continue;
             }
 
-            CityWeatherFragment fragment = CityWeatherFragment.newInstance(city.getCode());
-            fragmentTransaction.add(R.id.city_fragment, fragment);
-
-            fragmentMap.put(city.getCode(), fragment);
-
-            Button bt = new Button(getBaseContext());
-            bt.setText(city.getName1());
-            bt.setTag(city);
-            bt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showCityFragment(((CityBean)v.getTag()).getCode());
-                }
-            });
-            vg.addView(bt);
+            CityWeatherFragment fragment = CityWeatherFragment.newInstance(code);
+            fragmentMap.put(code, fragment);
         }
 
-        /*// 删除fragment
-        for (Integer code : fragmentMap.keySet()) {
-            boolean isUsed = false;
-            for (CityBean city : userCityList) {
-                if (city.getCode() == code) {
-                    isUsed = true;
-                    break;
+        mBottomVg = (ViewGroup)findViewById(R.id.city_bottom);
+        int diffCount = mBottomVg.getChildCount() - userCityList.size();
+        if (diffCount != 0) {
+            for (int i = 0; i < Math.abs(diffCount); i++) {
+                if (diffCount > 0) {
+                    mBottomVg.removeViewAt(0);
+                } else {
+                    ImageView iv = new ImageView(this);
+                    mBottomVg.addView(iv);
                 }
             }
-
-            if (!isUsed) {
-                fragmentTransaction.hide(fragmentMap.get(code));
-            }
-        }*/
-
-        fragmentTransaction.commit();
-
-        showCityFragment(userCityList.get(0).getCode());
-    }
-
-
-    private void showCityFragment(int cityCode) {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        for (Integer code : fragmentMap.keySet()) {
-            if (code == cityCode) {
-                ft.show(fragmentMap.get(code));
-            } else {
-                ft.hide(fragmentMap.get(code));
-            }
         }
-        ft.commit();
+        showCity(0);
+
+        ViewPager viewPager = (ViewPager)findViewById(R.id.city_paper);
+        viewPager.setAdapter(new CityPagerAdapter(getSupportFragmentManager(), userCityList));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+            @Override
+            public void onPageSelected(int position) {
+                showCity(position);
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
+    private void showCity(int position) {
+        for (int i = 0; i < mBottomVg.getChildCount(); i++) {
+            ImageView iv = (ImageView)mBottomVg.getChildAt(i);
+            iv.setImageResource(position == i ? R.drawable.circle_solid : R.drawable.circle_hollow);
+        }
+    }
+
+    class CityPagerAdapter extends FragmentStatePagerAdapter {
+        private List<CityBean> mCitys;
+
+        public CityPagerAdapter(FragmentManager fm, List<CityBean> citys) {
+            super(fm);
+
+            mCitys = citys;
+        }
+
+
+        @Override
+        public android.support.v4.app.Fragment getItem(int position) {
+            return fragmentMap.get(mCitys.get(position).getCode());
+        }
+
+        @Override
+        public int getCount() {
+            return mCitys.size();
+        }
+    }
 }
