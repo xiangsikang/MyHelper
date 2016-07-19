@@ -14,6 +14,7 @@ import com.xiangsk.myhelper.bean.CityBean;
 import com.xiangsk.myhelper.bean.Forecast;
 import com.xiangsk.myhelper.db.DatabaseHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,10 +26,18 @@ public class CityRecyclerAdapter extends RecyclerView.Adapter<CityRecyclerAdapte
 
     private List<CityBean> mCitys;
 
-    public CityRecyclerAdapter(Context context, List<CityBean> citys){
-        this. mContext = context;
-        this. mCitys = citys;
+    public CityRecyclerAdapter(Context context){
+        this.mContext = context;
+        this.mCitys = new ArrayList<>(0);
         inflater = LayoutInflater.from(mContext);
+    }
+
+    public void setCitys(List<CityBean> citys) {
+        this.mCitys = citys;
+    }
+
+    public void addCity(CityBean city) {
+        mCitys.add(city);
     }
 
     @Override
@@ -52,23 +61,9 @@ public class CityRecyclerAdapter extends RecyclerView.Adapter<CityRecyclerAdapte
                 public void onClick(View v) {
                     mCitys.remove(position);
                     new DatabaseHelper(mContext).deleteUserCity(city.getCode());
-                    notifyItemRemoved(position);
+                    notifyDataSetChanged();
                 }
             });
-        } else {
-            holder.city_m_img.setImageResource(R.drawable.smile);
-            holder.city_m_name.setText("+");
-
-            View.OnClickListener clickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.setClass(mContext, CitySelectActivity.class);
-                    mContext.startActivity(intent);
-                }
-            };
-            holder.city_m_name.setOnClickListener(clickListener);
-            holder.city_m_img.setOnClickListener(clickListener);
         }
     }
 

@@ -20,7 +20,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".CityManagerActivity" android:launchMode="singleTask"/>
-        <activity android:name=".CitySelectActivity" android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

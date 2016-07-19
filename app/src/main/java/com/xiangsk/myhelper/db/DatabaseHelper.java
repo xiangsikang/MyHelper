@@ -85,18 +85,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return resultList;
     }
 
-    public void deleteUserCity(int cityCode) {
-        getWritableDatabase().delete(TABLE_USER_CITY, "code=?", new String[]{String.valueOf(cityCode)});
+    public int deleteUserCity(int cityCode) {
+        return getWritableDatabase().delete(TABLE_USER_CITY, "code=?", new String[]{String.valueOf(cityCode)});
     }
-    public void addUserCity(int cityCode) {
+    public long addUserCity(int cityCode) {
         List<Integer> userCityList = getUserCityCode();
         if (userCityList.contains(cityCode)) {
-            return;
+            return 0;
         }
 
         ContentValues values = new ContentValues();
         values.put("code", cityCode);
-        getWritableDatabase().insert(TABLE_USER_CITY, null, values);
+        return getWritableDatabase().insert(TABLE_USER_CITY, null, values);
     }
 
     public static void importDB(Context context) {
