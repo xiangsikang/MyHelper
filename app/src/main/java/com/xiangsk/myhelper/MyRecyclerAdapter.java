@@ -23,6 +23,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
     private float mMaxTemp = -99;
     private float mMinTemp = 99;
 
+    private float mTop = 0F;
+    private float mMiddle = 0.1F;
+    private float mBottom = 0.25F;
+
     public MyRecyclerAdapter(Context context, List<Forecast> datas){
         this. mContext = context;
         this. mDatas = datas;
@@ -39,8 +43,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
                 mMinTemp = tempLow;
             }
         }
-        mMinTemp -= 3;
-        mMaxTemp += 2;
     }
 
     @Override
@@ -70,11 +72,11 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
 
         ViewGroup vg = (ViewGroup)holder.item_temp_high.getParent();
         float totalHeight = vg.getLayoutParams().height;
-        float oneHeight = totalHeight / (mMaxTemp - mMinTemp);
+        float oneHeight = totalHeight * (1- mTop - mMiddle - mBottom) / (mMaxTemp - mMinTemp);
 
-        float padding = holder.item_temp_high.getCompoundPaddingBottom();
-        holder.item_temp_high.setTranslationY(oneHeight * (mMaxTemp - tempHigh) - padding);
-        holder.item_temp_low.setTranslationY(oneHeight * (mMaxTemp - tempLow) + padding);
+        //float padding = holder.item_temp_high.getCompoundPaddingBottom();
+        holder.item_temp_high.setTranslationY(oneHeight * (mMaxTemp - tempHigh) + totalHeight* mTop);
+        holder.item_temp_low.setTranslationY(oneHeight * (mMaxTemp - tempLow) + totalHeight*(mTop + mMiddle));
 
     }
 

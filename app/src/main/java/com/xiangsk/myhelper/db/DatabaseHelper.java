@@ -102,7 +102,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static void importDB(Context context) {
         File dbFile = context.getDatabasePath(DB_NAME);
         if (dbFile.exists()) {
-            return;
+            if (dbFile.length() == 20480) {
+                dbFile.delete();
+            } else {
+                return;
+            }
         }
 
         File dir = dbFile.getParentFile();

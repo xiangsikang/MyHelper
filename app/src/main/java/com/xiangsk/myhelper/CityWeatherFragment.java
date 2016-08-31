@@ -143,7 +143,9 @@ public class CityWeatherFragment extends Fragment {
             windRange.setText(String.format("%s-%s℃", lowTemp, highTemp));
 
             TextView wind = (TextView) mView.findViewById(R.id.header_wind);
-            wind.setText(todayData.getFengxiang() + " " + todayData.getFengli());
+            String windStr = "无持续风向".equals(todayData.getFengxiang()) ? "" :todayData.getFengxiang();
+            windStr += (windStr.length() > 0 ? " " : "") + todayData.getFengli();
+            wind.setText(windStr);
 
             RecyclerView recyclerView = (RecyclerView) mView.findViewById(R.id.list);
             MyRecyclerAdapter recycleAdapter = new MyRecyclerAdapter(getContext(), data.getForecast());

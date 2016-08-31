@@ -18,12 +18,14 @@ public class WeatherUtils {
         imageMap.put("月亮", R.drawable.weather_moon);
         imageMap.put("多云", R.drawable.weather_partlycloudy);
         imageMap.put("阵雨", R.drawable.weather_showers);
+        imageMap.put("暴雨", R.drawable.weather_rainy_h);
         imageMap.put("大雨", R.drawable.weather_rainy_h);
         imageMap.put("中到大雨", R.drawable.weather_rainy_m);
         imageMap.put("中雨", R.drawable.weather_rainy_m);
         imageMap.put("小到中雨", R.drawable.weather_rainy_s);
         imageMap.put("小雨", R.drawable.weather_rainy_s);
         imageMap.put("雨夹雪", R.drawable.weather_rainy_snowy);
+        imageMap.put("暴雪", R.drawable.weather_snowy_h);
         imageMap.put("大雪", R.drawable.weather_snowy_h);
         imageMap.put("中雪", R.drawable.weather_snowy_m);
         imageMap.put("小雪", R.drawable.weather_snowy_s);
